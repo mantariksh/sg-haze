@@ -1,0 +1,30 @@
+meta {
+  name: Get PSI Historical
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{nea_base_url}}/psi
+  body: none
+  auth: none
+}
+
+headers {
+  x-api-key: {{nea_api_key}}
+}
+
+query {
+  date: 2025-10-01
+}
+
+tests {
+  test("status is 200", function() {
+    expect(res.status).to.equal(200);
+  });
+
+  test("response has historical data", function() {
+    expect(res.body.data.items).to.be.an('array');
+    expect(res.body.data.items.length).to.be.greaterThan(0);
+  });
+}

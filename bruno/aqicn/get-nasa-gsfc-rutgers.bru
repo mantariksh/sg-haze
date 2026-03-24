@@ -1,0 +1,31 @@
+meta {
+  name: Get NASA GSFC Rutgers
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{aqicn_base_url}}/feed/A477646/?token={{aqicn_token}}
+  body: none
+  auth: none
+}
+
+tests {
+  test("status is 200", function() {
+    expect(res.status).to.equal(200);
+  });
+
+  test("response status is ok", function() {
+    expect(res.body.status).to.equal("ok");
+  });
+
+  test("response has AQI and PM2.5 data", function() {
+    expect(res.body.data.aqi).to.be.a('number');
+    expect(res.body.data.iaqi).to.have.property('pm25');
+  });
+
+  test("response has location data", function() {
+    expect(res.body.data.city).to.have.property('geo');
+    expect(res.body.data.city.geo).to.be.an('array');
+  });
+}

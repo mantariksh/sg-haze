@@ -1,0 +1,26 @@
+meta {
+  name: Get Singapore Sensors
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://api.purpleair.com/v1/sensors?fields=sensor_index,name,latitude,longitude,location_type,last_seen,pm2.5,pm2.5_60minute,pm2.5_24hour,pm10.0,humidity,temperature&max_age=86400&nwlat=1.47&nwlng=103.6&selat=1.22&selng=104.05
+  body: none
+  auth: none
+}
+
+headers {
+  X-API-Key: {{purpleair_api_key}}
+}
+
+tests {
+  test("status is 200", function() {
+    expect(res.status).to.equal(200);
+  });
+
+  test("response has sensor data", function() {
+    expect(res.body.fields).to.be.an('array');
+    expect(res.body.data).to.be.an('array');
+  });
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SG Haze Watch</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☁️</text></svg>">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header>
+    <h1>SG Haze Watch</h1>
+    <p id="status">Loading...</p>
+  </header>
+  <main>
+    <div id="map"></div>
+    <section id="panel">
+      <details id="bands-section">
+        <summary>PM2.5 Bands (NEA)</summary>
+        <table>
+          <thead>
+            <tr>
+              <th>1-hr PM2.5 reading</th>
+              <th>Band</th>
+              <th>Descriptor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>0 &ndash; 55 &micro;g/m&sup3;</td><td>1</td><td class="band-normal">Normal</td></tr>
+            <tr><td>56 &ndash; 150 &micro;g/m&sup3;</td><td>2</td><td class="band-elevated">Elevated</td></tr>
+            <tr><td>151 &ndash; 250 &micro;g/m&sup3;</td><td>3</td><td class="band-high">High</td></tr>
+            <tr><td>&ge;251 &micro;g/m&sup3;</td><td>4</td><td class="band-very-high">Very High</td></tr>
+          </tbody>
+        </table>
+      </details>
+
+      <details id="history-section">
+        <summary>History</summary>
+        <div id="history-controls">
+          <label>From: <input type="date" id="history-from" /></label>
+          <label>To: <input type="date" id="history-to" /></label>
+          <button id="history-btn">Load</button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Station</th>
+              <th>Source</th>
+              <th>PM2.5 1-hr</th>
+              <th>Band</th>
+              <th>PM10 24-hr</th>
+            </tr>
+          </thead>
+          <tbody id="history-body"></tbody>
+        </table>
+      </details>
+
+      <details id="about-section">
+        <summary>About</summary>
+        <p>
+          I built this because I experienced haze in real life, but when I checked official
+          government data sources, they told me that haze levels were normal. I wasn't the
+          only one; others on Reddit were reporting the same thing. So I wanted to be able
+          to see government and non-government data sources for haze side by side.
+        </p>
+        <h3>Inspiration</h3>
+        <ul>
+          <li><a href="https://www.reddit.com/r/askSingapore/comments/1s0p01m/anyone_else_experiencing_really_bad_haze/">Anyone else experiencing really bad haze?</a> &ndash; r/askSingapore</li>
+          <li><a href="https://www.reddit.com/r/singapore/comments/1724a18/guide_how_to_make_sense_of_nea_24h_psi1h_pm25_vs/">Guide: How to make sense of NEA 24h PSI/1h PM2.5</a> &ndash; r/singapore</li>
+          <li><a href="https://psi.sg/">psi.sg</a></li>
+        </ul>
+      </details>
+      <div class="panel-actions">
+        <a href="https://forms.gle/kuEzJZWzKy3Gvh9M9" target="_blank" rel="noopener" class="feedback-btn">Leave feedback</a>
+        <a href="https://buy.stripe.com/14A3cneUT6ad4AI4nQ3F600" target="_blank" rel="noopener" class="donate-btn">Support this project (S$2.99)</a>
+      </div>
+    </section>
+  </main>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script src="/app.js"></script>
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+</body>
+</html>

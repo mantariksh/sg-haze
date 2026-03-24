@@ -1,0 +1,22 @@
+{
+  "name": "sg-haze",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "bruno": "bru run --env production",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.14.0",
+  "devDependencies": {
+    "@usebruno/cli": "^3.2.0",
+    "vercel": "^50.35.0"
+  },
+  "dependencies": {
+    "@libsql/client": "^0.17.2",
+    "@vercel/analytics": "^2.0.1"
+  }
+}

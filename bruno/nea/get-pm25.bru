@@ -1,0 +1,28 @@
+meta {
+  name: Get PM2.5
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{nea_base_url}}/pm25
+  body: none
+  auth: none
+}
+
+headers {
+  x-api-key: {{nea_api_key}}
+}
+
+tests {
+  test("status is 200", function() {
+    expect(res.status).to.equal(200);
+  });
+
+  test("response has PM2.5 readings", function() {
+    expect(res.body.data.items).to.be.an('array');
+    expect(res.body.data.items.length).to.be.greaterThan(0);
+    const item = res.body.data.items[0];
+    expect(item.readings).to.have.property('pm25_one_hourly');
+  });
+}
