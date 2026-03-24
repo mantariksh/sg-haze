@@ -95,7 +95,7 @@ legend.onAdd = function () {
     <div class="legend-item"><span class="legend-marker circle"></span> Official (NEA)</div>
     <div class="legend-item"><span class="legend-marker diamond"></span> Community</div>
     <hr class="legend-divider">
-    <div class="legend-title">NEA 1-hr PM2.5 bands (\u00b5g/m\u00b3)</div>
+    <div class="legend-title">NEA PM2.5 bands</div>
     <div class="legend-item"><span class="legend-color" style="background:#50c878"></span> Normal (0\u201355)</div>
     <div class="legend-item"><span class="legend-color" style="background:#f0c040"></span> Elevated (56\u2013150)</div>
     <div class="legend-item"><span class="legend-color" style="background:#ff8c00"></span> High (151\u2013250)</div>
@@ -139,8 +139,7 @@ function createMarkerIcon(source, color, pm25Value) {
   const shape = source === "nea"
     ? `<circle cx="24" cy="24" r="20" fill="${color}" fill-opacity="0.3" stroke="${color}" stroke-width="2.5"/>`
     : `<rect x="7" y="7" width="34" height="34" rx="3" transform="rotate(45 24 24)"
-        fill="${color}" fill-opacity="0.3" stroke="${color}" stroke-width="2.5"
-        stroke-dasharray="5 3"/>`;
+        fill="${color}" fill-opacity="0.3" stroke="${color}" stroke-width="2.5"/>`;
 
   return L.divIcon({
     className: "",
