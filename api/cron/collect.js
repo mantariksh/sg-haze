@@ -15,9 +15,13 @@ export default async function handler(req, res) {
     const all = [...nea, ...aqicn, ...purpleair];
     const db = getDb();
 
-    const insertSql = `INSERT INTO readings
-      (source, station, timestamp, pm25_1hr, pm25_24hr, pm10_24hr, o3_8hr, co_8hr, so2_24hr, no2_1hr, psi, latitude, longitude, raw_json)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    // SGT collected_at timestamp
+    const now = new Date(Date.now() + 8 * 60 * 60 * 1000)
+      .toISOString().replace("Z", "+08:00");
+
+    const insertSql = `INSERT OR IGNORE INTO readings
+      (source, station, timestamp, pm25_1hr, pm25_24hr, pm10_24hr, o3_8hr, co_8hr, so2_24hr, no2_1hr, psi, latitude, longitude, raw_json, collected_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     for (const r of all) {
       await db.execute({
@@ -25,7 +29,7 @@ export default async function handler(req, res) {
         args: [
           r.source, r.station, r.timestamp,
           r.pm25_1hr, r.pm25_24hr, r.pm10_24hr, r.o3_8hr, r.co_8hr, r.so2_24hr, r.no2_1hr, r.psi,
-          r.latitude, r.longitude, r.raw_json,
+          r.latitude, r.longitude, r.raw_json, now,
         ],
       });
     }

@@ -26,7 +26,7 @@ export default async function handler(req, res) {
     );
     return res.status(200).json({
       readings,
-      fetchedAt: new Date().toISOString(),
+      fetchedAt: new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString().replace("Z", "+08:00"),
     });
   } catch (err) {
     console.error("Error fetching readings:", err);

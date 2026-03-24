@@ -38,10 +38,11 @@
       </details>
 
       <details id="history-section">
-        <summary>History</summary>
+        <summary>Historical data</summary>
         <div id="history-controls">
-          <label>From: <input type="date" id="history-from" /></label>
-          <label>To: <input type="date" id="history-to" /></label>
+          <label>Date: <input type="date" id="history-date" /></label>
+          <label>From: <input type="time" id="history-from" /></label>
+          <label>To: <input type="time" id="history-to" /></label>
           <button id="history-btn">Load</button>
         </div>
         <table>
@@ -57,6 +58,7 @@
           </thead>
           <tbody id="history-body"></tbody>
         </table>
+        <div id="history-pagination"></div>
       </details>
 
       <details id="about-section">

@@ -227,13 +227,20 @@ async function fetchReadings() {
 }
 
 // --- History ---
-async function fetchHistory() {
+let historyPage = 1;
+
+async function fetchHistory(page) {
+  historyPage = page || 1;
+  const date = document.getElementById("history-date").value;
   const from = document.getElementById("history-from").value;
   const to = document.getElementById("history-to").value;
 
+  if (!date) return;
+
   const params = new URLSearchParams();
-  if (from) params.set("from", new Date(from).toISOString());
-  if (to) params.set("to", new Date(to + "T23:59:59").toISOString());
+  params.set("from", date + "T" + (from || "00:00") + ":00+08:00");
+  params.set("to", date + "T" + (to || "23:59") + ":59+08:00");
+  params.set("page", historyPage);
 
   try {
     const res = await fetch(`/api/history?${params}`);
@@ -244,6 +251,7 @@ async function fetchHistory() {
     if (data.readings.length === 0) {
       tbody.innerHTML =
         '<tr><td colspan="6" style="color:#666;text-align:center">No historical data yet</td></tr>';
+      document.getElementById("history-pagination").innerHTML = "";
       return;
     }
 
@@ -261,19 +269,25 @@ async function fetchHistory() {
         </tr>`;
       })
       .join("");
+
+    const pag = document.getElementById("history-pagination");
+    pag.innerHTML = `
+      <button ${data.page <= 1 ? "disabled" : ""} onclick="fetchHistory(${data.page - 1})">&laquo; Prev</button>
+      <span>Page ${data.page} of ${data.totalPages}</span>
+      <button ${data.page >= data.totalPages ? "disabled" : ""} onclick="fetchHistory(${data.page + 1})">Next &raquo;</button>
+    `;
   } catch (err) {
     console.error("Failed to fetch history:", err);
   }
 }
 
-document.getElementById("history-btn").addEventListener("click", fetchHistory);
+document.getElementById("history-btn").addEventListener("click", () => fetchHistory(1));
 
-// Set default history date range to last 7 days
-const today = new Date();
-const weekAgo = new Date(today);
-weekAgo.setDate(weekAgo.getDate() - 7);
-document.getElementById("history-to").value = today.toISOString().slice(0, 10);
-document.getElementById("history-from").value = weekAgo.toISOString().slice(0, 10);
+// Set default history date to today
+const todaySGT = new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString().slice(0, 10);
+document.getElementById("history-date").value = todaySGT;
+document.getElementById("history-from").value = "00:00";
+document.getElementById("history-to").value = "23:59";
 
 // Start polling
 fetchReadings();

@@ -434,6 +434,34 @@ td {
   background: #2563eb;
 }
 
+#history-pagination {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 13px;
+  color: #888;
+}
+
+#history-pagination button {
+  background: #1e2030;
+  color: #ccc;
+  border: 1px solid #2a2d3a;
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+#history-pagination button:hover:not(:disabled) {
+  background: #2a2d3a;
+}
+
+#history-pagination button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
 .panel-actions {
   display: flex;
   flex-direction: column;
