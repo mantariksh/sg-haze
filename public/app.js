@@ -154,24 +154,30 @@ function createMarkerIcon(source, color, pm25Value) {
   });
 }
 
-// PM2.5 averaging period label per source
-const PM25_PERIOD = {
-  nea: "1-hr avg",
-  aqicn: "real-time",
-  purpleair: "1-hr avg",
-};
+// Primary PM2.5 value and label per source
+function primaryPm25(r) {
+  if (r.source === "purpleair" && r.pm25_realtime != null) {
+    return { value: r.pm25_realtime, label: "real-time" };
+  }
+  if (r.source === "aqicn") {
+    return { value: r.pm25_1hr, label: "real-time" };
+  }
+  return { value: r.pm25_1hr, label: "1-hr avg" };
+}
 
 function popupContent(r) {
   const label = stationLabel(r);
   const sourceLabel = SOURCE_LABELS[r.source];
-  const band = pm25Band(r.pm25_1hr);
-  const period = PM25_PERIOD[r.source] ?? "";
+  const primary = primaryPm25(r);
+  const band = pm25Band(primary.value);
 
   const rows = [];
-  if (r.pm25_1hr != null) rows.push([`PM2.5 (${period})`, `${Math.round(r.pm25_1hr)} \u00b5g/m\u00b3`]);
+  if (primary.value != null) rows.push([`PM2.5 (${primary.label})`, `${Math.round(primary.value)} \u00b5g/m\u00b3`]);
+  if (r.source === "purpleair" && r.pm25_1hr != null) rows.push(["PM2.5 (1-hr avg)", `${Math.round(r.pm25_1hr)} \u00b5g/m\u00b3`]);
   if (r.pm25_24hr != null) rows.push(["PM2.5 (24-hr avg)", `${Math.round(r.pm25_24hr)} \u00b5g/m\u00b3`]);
-  if (r.pm10_24hr != null) rows.push(["PM10 (24-hr)", `${Math.round(r.pm10_24hr)} \u00b5g/m\u00b3`]);
-  if (r.o3_8hr != null) rows.push(["O\u2083 (8-hr)", `${Math.round(r.o3_8hr)} \u00b5g/m\u00b3`]);
+  const pm10Label = r.source === "nea" ? "PM10 (24-hr avg)" : "PM10 (real-time)";
+  if (r.pm10_24hr != null) rows.push([pm10Label, `${Math.round(r.pm10_24hr)} \u00b5g/m\u00b3`]);
+  if (r.o3_8hr != null) rows.push(["O\u2083 (8-hr avg)", `${Math.round(r.o3_8hr)} \u00b5g/m\u00b3`]);
   if (r.psi != null) rows.push(["PSI (24-hr)", Math.round(r.psi)]);
 
   const detailsHtml = rows
@@ -180,8 +186,8 @@ function popupContent(r) {
 
   return `
     <div class="popup-title">${label}</div>
-    <div class="popup-value" style="color:${band.color}">${r.pm25_1hr != null ? Math.round(r.pm25_1hr) : "—"}</div>
-    <div class="popup-unit">\u00b5g/m\u00b3 PM2.5 (${period})</div>
+    <div class="popup-value" style="color:${band.color}">${primary.value != null ? Math.round(primary.value) : "—"}</div>
+    <div class="popup-unit">\u00b5g/m\u00b3 PM2.5 (${primary.label})</div>
     <div class="popup-band" style="color:${band.color}">${band.descriptor}</div>
     <table class="popup-table">${detailsHtml}</table>
     <div class="popup-meta">Source: ${sourceLabel}</div>
@@ -195,16 +201,17 @@ function updateMarkers(readings) {
   for (const r of readings) {
     const key = `${r.source}-${r.station}`;
     seenKeys.add(key);
-    const band = pm25Band(r.pm25_1hr);
-    const icon = createMarkerIcon(r.source, band.color, r.pm25_1hr);
+    const primary = primaryPm25(r);
+    const band = pm25Band(primary.value);
+    const icon = createMarkerIcon(r.source, band.color, primary.value);
 
     if (markers[key]) {
       markers[key].setIcon(icon).setPopupContent(popupContent(r));
-      markers[key]._pm25Value = r.pm25_1hr;
+      markers[key]._pm25Value = primary.value;
     } else {
       const marker = L.marker([r.latitude, r.longitude], { icon })
         .bindPopup(popupContent(r));
-      marker._pm25Value = r.pm25_1hr;
+      marker._pm25Value = primary.value;
       clusterGroup.addLayer(marker);
       markers[key] = marker;
     }
