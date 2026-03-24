@@ -95,7 +95,7 @@ legend.onAdd = function () {
     <div class="legend-item"><span class="legend-marker circle"></span> Official (NEA)</div>
     <div class="legend-item"><span class="legend-marker diamond"></span> Community</div>
     <hr class="legend-divider">
-    <div class="legend-title">PM2.5 (\u00b5g/m\u00b3)</div>
+    <div class="legend-title">NEA 1-hr PM2.5 bands (\u00b5g/m\u00b3)</div>
     <div class="legend-item"><span class="legend-color" style="background:#50c878"></span> Normal (0\u201355)</div>
     <div class="legend-item"><span class="legend-color" style="background:#f0c040"></span> Elevated (56\u2013150)</div>
     <div class="legend-item"><span class="legend-color" style="background:#ff8c00"></span> High (151\u2013250)</div>
