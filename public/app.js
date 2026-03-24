@@ -77,20 +77,21 @@ legend.onAdd = function () {
   const div = L.DomUtil.create("div", "legend");
   L.DomEvent.disableClickPropagation(div);
 
-  const toggle = L.DomUtil.create("button", "legend-toggle", div);
+  const toggleRow = L.DomUtil.create("div", "legend-toggle-row", div);
+
+  const toggle = L.DomUtil.create("button", "legend-toggle", toggleRow);
   toggle.textContent = "Legend";
   toggle.setAttribute("aria-label", "Toggle legend");
 
-  const body = L.DomUtil.create("div", "legend-body", div);
-
-  const close = L.DomUtil.create("button", "legend-close", body);
+  const close = L.DomUtil.create("button", "legend-close", toggleRow);
   close.textContent = "\u00d7";
   close.setAttribute("aria-label", "Close legend");
   close.addEventListener("click", () => {
     div.classList.remove("legend-open");
   });
 
-  body.innerHTML += `
+  const body = L.DomUtil.create("div", "legend-body", div);
+  body.innerHTML = `
     <div class="legend-title">PM2.5 1-hr (\u00b5g/m\u00b3)</div>
     <div class="legend-item"><span class="legend-color" style="background:#50c878"></span> Normal (0\u201355)</div>
     <div class="legend-item"><span class="legend-color" style="background:#f0c040"></span> Elevated (56\u2013150)</div>
