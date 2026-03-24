@@ -436,9 +436,10 @@ td {
 
 .panel-actions {
   display: flex;
+  flex-direction: column;
   gap: 10px;
   margin-top: 12px;
-  flex-wrap: wrap;
+  align-items: flex-start;
 }
 
 .feedback-btn {
