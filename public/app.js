@@ -99,7 +99,7 @@ legend.onAdd = function () {
     <div class="legend-item"><span class="legend-color" style="background:#ff4444"></span> Very High (\u2265251)</div>
     <hr class="legend-divider">
     <div class="legend-item"><span class="legend-marker circle"></span> Official (NEA)</div>
-    <div class="legend-item"><span class="legend-marker diamond"></span> Community (AQICN)</div>
+    <div class="legend-item"><span class="legend-marker diamond"></span> Community</div>
   `;
 
   toggle.addEventListener("click", () => {
@@ -154,14 +154,22 @@ function createMarkerIcon(source, color, pm25Value) {
   });
 }
 
+// PM2.5 averaging period label per source
+const PM25_PERIOD = {
+  nea: "1-hr avg",
+  aqicn: "real-time",
+  purpleair: "1-hr avg",
+};
+
 function popupContent(r) {
   const label = stationLabel(r);
   const sourceLabel = SOURCE_LABELS[r.source];
   const band = pm25Band(r.pm25_1hr);
+  const period = PM25_PERIOD[r.source] ?? "";
 
   const rows = [];
-  if (r.pm25_1hr != null) rows.push(["PM2.5 (1-hr)", `${Math.round(r.pm25_1hr)} \u00b5g/m\u00b3`]);
-  if (r.pm25_24hr != null) rows.push(["PM2.5 (24-hr)", `${Math.round(r.pm25_24hr)} \u00b5g/m\u00b3`]);
+  if (r.pm25_1hr != null) rows.push([`PM2.5 (${period})`, `${Math.round(r.pm25_1hr)} \u00b5g/m\u00b3`]);
+  if (r.pm25_24hr != null) rows.push(["PM2.5 (24-hr avg)", `${Math.round(r.pm25_24hr)} \u00b5g/m\u00b3`]);
   if (r.pm10_24hr != null) rows.push(["PM10 (24-hr)", `${Math.round(r.pm10_24hr)} \u00b5g/m\u00b3`]);
   if (r.o3_8hr != null) rows.push(["O\u2083 (8-hr)", `${Math.round(r.o3_8hr)} \u00b5g/m\u00b3`]);
   if (r.psi != null) rows.push(["PSI (24-hr)", Math.round(r.psi)]);
@@ -173,7 +181,7 @@ function popupContent(r) {
   return `
     <div class="popup-title">${label}</div>
     <div class="popup-value" style="color:${band.color}">${r.pm25_1hr != null ? Math.round(r.pm25_1hr) : "—"}</div>
-    <div class="popup-unit">\u00b5g/m\u00b3 (1-hr PM2.5)</div>
+    <div class="popup-unit">\u00b5g/m\u00b3 PM2.5 (${period})</div>
     <div class="popup-band" style="color:${band.color}">${band.descriptor}</div>
     <table class="popup-table">${detailsHtml}</table>
     <div class="popup-meta">Source: ${sourceLabel}</div>
