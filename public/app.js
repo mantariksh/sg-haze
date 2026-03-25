@@ -92,9 +92,6 @@ legend.onAdd = function () {
 
   const body = L.DomUtil.create("div", "legend-body", div);
   body.innerHTML = `
-    <div class="legend-item"><span class="legend-marker circle"></span> Official (NEA)</div>
-    <div class="legend-item"><span class="legend-marker diamond"></span> Community</div>
-    <hr class="legend-divider">
     <div class="legend-title">NEA PM2.5 bands</div>
     <div class="legend-item"><span class="legend-color" style="background:#50c878"></span> Normal (0\u201355)</div>
     <div class="legend-item"><span class="legend-color" style="background:#f0c040"></span> Elevated (56\u2013150)</div>
@@ -137,21 +134,18 @@ map.addLayer(clusterGroup);
 function createMarkerIcon(source, color, pm25Value) {
   const label = pm25Value != null ? Math.round(pm25Value) : "—";
   const sourceTag = source === "nea" ? "NEA" : "community";
-  const shape = source === "nea"
-    ? `<circle cx="24" cy="22" r="18" fill="${color}" fill-opacity="0.3" stroke="${color}" stroke-width="2.5"/>`
-    : `<rect x="10" y="7" width="28" height="28" rx="3" transform="rotate(45 24 21)"
-        fill="${color}" fill-opacity="0.3" stroke="${color}" stroke-width="2.5"/>`;
+  const shape = `<circle cx="30" cy="20" r="16" fill="${color}" fill-opacity="0.3" stroke="${color}" stroke-width="2.5"/>`;
 
   return L.divIcon({
     className: "",
     html: `<div class="map-marker">
-      <svg width="48" height="56" viewBox="0 0 48 56">${shape}</svg>
+      <svg width="60" height="52" viewBox="0 0 60 52">${shape}</svg>
       <span class="marker-label" style="color:${color}">${label}</span>
       <span class="marker-source" style="color:${color}">${sourceTag}</span>
     </div>`,
-    iconSize: [48, 56],
-    iconAnchor: [24, 28],
-    popupAnchor: [0, -28],
+    iconSize: [60, 52],
+    iconAnchor: [30, 26],
+    popupAnchor: [0, -26],
   });
 }
 

@@ -141,8 +141,8 @@ td {
 /* Map marker overlay labels */
 .map-marker {
   position: relative;
-  width: 48px;
-  height: 56px;
+  width: 60px;
+  height: 52px;
 }
 
 .map-marker svg {
@@ -153,10 +153,10 @@ td {
 
 .marker-label {
   position: absolute;
-  top: 38%;
+  top: 37%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   text-shadow: 0 0 4px rgba(0,0,0,0.8), 0 0 8px rgba(0,0,0,0.6);
   white-space: nowrap;
@@ -165,7 +165,7 @@ td {
 
 .marker-source {
   position: absolute;
-  bottom: 2px;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   font-size: 9px;
@@ -308,13 +308,6 @@ td {
   background: rgba(59, 130, 246, 0.3);
 }
 
-.legend-marker.diamond {
-  width: 10px;
-  height: 10px;
-  transform: rotate(45deg);
-  border-color: #fb923c;
-  background: rgba(249, 115, 22, 0.3);
-}
 
 @media (max-width: 768px) {
   .legend-toggle-row {
