@@ -136,20 +136,22 @@ map.addLayer(clusterGroup);
 
 function createMarkerIcon(source, color, pm25Value) {
   const label = pm25Value != null ? Math.round(pm25Value) : "—";
+  const sourceTag = source === "nea" ? "NEA" : "community";
   const shape = source === "nea"
-    ? `<circle cx="24" cy="24" r="20" fill="${color}" fill-opacity="0.3" stroke="${color}" stroke-width="2.5"/>`
-    : `<rect x="7" y="7" width="34" height="34" rx="3" transform="rotate(45 24 24)"
+    ? `<circle cx="24" cy="22" r="18" fill="${color}" fill-opacity="0.3" stroke="${color}" stroke-width="2.5"/>`
+    : `<rect x="10" y="7" width="28" height="28" rx="3" transform="rotate(45 24 21)"
         fill="${color}" fill-opacity="0.3" stroke="${color}" stroke-width="2.5"/>`;
 
   return L.divIcon({
     className: "",
     html: `<div class="map-marker">
-      <svg width="48" height="48" viewBox="0 0 48 48">${shape}</svg>
+      <svg width="48" height="56" viewBox="0 0 48 56">${shape}</svg>
       <span class="marker-label" style="color:${color}">${label}</span>
+      <span class="marker-source" style="color:${color}">${sourceTag}</span>
     </div>`,
-    iconSize: [48, 48],
-    iconAnchor: [24, 24],
-    popupAnchor: [0, -24],
+    iconSize: [48, 56],
+    iconAnchor: [24, 28],
+    popupAnchor: [0, -28],
   });
 }
 
