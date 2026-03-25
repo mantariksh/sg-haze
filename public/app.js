@@ -16,9 +16,9 @@ const STATION_LABELS = {
 };
 
 const SOURCE_LABELS = {
-  nea: "NEA (Official)",
-  aqicn: "AQICN (Community)",
-  purpleair: "PurpleAir (Community)",
+  nea: "NEA",
+  aqicn: "AQICN",
+  purpleair: "PurpleAir",
 };
 
 // NEA PM2.5 1-hr bands
