@@ -133,7 +133,7 @@ map.addLayer(clusterGroup);
 
 function createMarkerIcon(source, color, pm25Value) {
   const label = pm25Value != null ? Math.round(pm25Value) : "—";
-  const sourceTag = source === "nea" ? "NEA" : "community";
+  const sourceTag = source === "nea" ? "NEA" : "non-gov";
   const shape = `<circle cx="30" cy="20" r="16" fill="${color}" fill-opacity="0.3" stroke="${color}" stroke-width="2.5"/>`;
 
   return L.divIcon({
